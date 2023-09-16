@@ -13,6 +13,8 @@
 
 The Digital Board project is a Python application that provides a digital canvas for drawing, sketching, and taking notes. It allows users to create and manage multiple slides, draw freehand or use various shapes and tools, add text, change colors, and save their work as PDF files. This README.md file provides an overview of the project, its features, and how to use it.
 
+![Notebook](images/notebook.png)
+
 ## Features
 
 ### Drawing Tools
