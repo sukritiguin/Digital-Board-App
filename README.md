@@ -62,13 +62,13 @@ The project requires the following Python libraries to be installed:
 2. Install the required libraries using `pip` if they are not already installed:
 
    ```bash
-   pip install pillow reportlab img2pdf pyperclip
+   pip install requirements.txt
    ```
 
 3. Run the `digital_board.py` file:
 
    ```bash
-   python digital_board.py
+   python app.py
    ```
 
 4. The Digital Board application will open in fullscreen mode. Use the tools and features as described in the "Features" section.
