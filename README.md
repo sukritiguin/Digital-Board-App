@@ -1,14 +1,15 @@
 # Digital Board
 
-- [deprecation](https://pypi.org/project/deprecation/) (Version 2.1.0)
-- [img2pdf](https://pypi.org/project/img2pdf/) (Version 0.4.4)
-- [lxml](https://pypi.org/project/lxml/) (Version 4.9.3)
-- [packaging](https://pypi.org/project/packaging/) (Version 23.1)
-- [pikepdf](https://pypi.org/project/pikepdf/) (Version 8.4.1)
-- [Pillow](https://pypi.org/project/Pillow/) (Version 9.5.0)
-- [pyperclip](https://pypi.org/project/pyperclip/) (Version 1.8.2)
-- [reportlab](https://pypi.org/project/reportlab/) (Version 4.0.4)
-- [ttkbootstrap](https://pypi.org/project/ttkbootstrap/) (Version 1.10.1)
+[![Deprecation](https://img.shields.io/badge/deprecation-2.1.0-blue.svg)](https://pypi.org/project/deprecation/)
+[![img2pdf](https://img.shields.io/badge/img2pdf-0.4.4-blue.svg)](https://pypi.org/project/img2pdf/)
+[![lxml](https://img.shields.io/badge/lxml-4.9.3-blue.svg)](https://pypi.org/project/lxml/)
+[![packaging](https://img.shields.io/badge/packaging-23.1-blue.svg)](https://pypi.org/project/packaging/)
+[![pikepdf](https://img.shields.io/badge/pikepdf-8.4.1-blue.svg)](https://pypi.org/project/pikepdf/)
+[![Pillow](https://img.shields.io/badge/Pillow-9.5.0-blue.svg)](https://pypi.org/project/Pillow/)
+[![pyperclip](https://img.shields.io/badge/pyperclip-1.8.2-blue.svg)](https://pypi.org/project/pyperclip/)
+[![reportlab](https://img.shields.io/badge/reportlab-4.0.4-blue.svg)](https://pypi.org/project/reportlab/)
+[![ttkbootstrap](https://img.shields.io/badge/ttkbootstrap-1.10.1-blue.svg)](https://pypi.org/project/ttkbootstrap/)
+
 
 The Digital Board project is a Python application that provides a digital canvas for drawing, sketching, and taking notes. It allows users to create and manage multiple slides, draw freehand or use various shapes and tools, add text, change colors, and save their work as PDF files. This README.md file provides an overview of the project, its features, and how to use it.
 
