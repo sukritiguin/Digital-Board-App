@@ -83,6 +83,7 @@ class DigitalBoard:
         self.context_menu = Menu(self.canvas, tearoff=0)
         self.context_menu.add_command(label="Paste Image", command=self.paste_image)
         self.context_menu.add_command(label="Add Text", command=self.create_text_box)
+
                 
         self.bind_events()
         
@@ -216,7 +217,8 @@ class DigitalBoard:
         
         delete_slide_button = ttk.Button(toolbar, image=delete_icon, command=self.delete_current_slide)
         delete_slide_button.image = delete_icon
-        delete_slide_button.pack(side=tk.LEFT, padx=5)     
+        delete_slide_button.pack(side=tk.LEFT, padx=5)    
+
 
 
         self.current_color_box = ttk.Label(
@@ -248,6 +250,9 @@ class DigitalBoard:
         self.canvas.bind("<MouseWheel>", self.zoom_with_mouse)  # Capture mouse scroll events
     
         self.canvas.bind("<Button-3>", self.show_context_menu)
+
+        self.root.bind("<Control-z>", self.undo)
+        self.root.bind("<Control-y>", self.redo)
 
         
 
@@ -317,7 +322,12 @@ class DigitalBoard:
             x, y = event.x, event.y
             item = self.canvas.find_closest(x, y)
             if item:
+                # Get the coordinates of the item
+                x1, y1, x2, y2 = self.canvas.coords(item)
+                # Delete iteam to erase
                 self.canvas.delete(item)
+                # Add the erased area to the list of erased areas
+                self.erased_areas.append((x1, y1, x2, y2))
 
     def draw(self, event):
         if self.is_drawing:
@@ -325,21 +335,21 @@ class DigitalBoard:
             if self.current_tool == "pen":
                 if self.prev_x is not None and self.prev_y is not None:
                     # Draw Bézier curve
-                    self.canvas.create_line(self.prev_x, self.prev_y, x, y, fill=self.pen_color, width=self.pen_width, capstyle=tk.ROUND, smooth=tk.TRUE)
+                    shape = self.canvas.create_line(self.prev_x, self.prev_y, x, y, fill=self.pen_color, width=self.pen_width, capstyle=tk.ROUND, smooth=tk.TRUE)
                 self.prev_x, self.prev_y = x, y
             elif self.current_tool == "eraser":
-                self.canvas.create_rectangle(
+                shape = self.canvas.create_rectangle(
                     x - self.eraser_width / 2, y - self.eraser_width / 2,
                     x + self.eraser_width / 2, y + self.eraser_width / 2,
                     fill=self.eraser_color, outline=""
                 )
             elif self.current_tool == "circle":
                 x, y = event.x, event.y
-                self.canvas.coords(self.circle,
+                shape = self.canvas.coords(self.circle,
                     self.prev_x, self.prev_y, x, y
                 )
             elif self.current_tool == "square":
-                self.canvas.coords(self.square,
+                shape = self.canvas.coords(self.square,
                     self.start_x, self.start_y, x, y
                 )
             elif self.current_tool == "line":
@@ -348,13 +358,13 @@ class DigitalBoard:
                     x, y,
                     self.start_x + (x - self.start_x) / 2, self.start_y + (y - self.start_y) / 2
                 ]
-                self.canvas.coords(self.line, *arrow_points)
+                shape = self.canvas.coords(self.line, *arrow_points)
             elif self.current_tool == "arrow":
-                self.canvas.coords(self.arrow,
+                shape = self.canvas.coords(self.arrow,
                     self.start_x, self.start_y, x, y
                 )
             elif self.current_tool == "arrow-2faced":
-                self.canvas.coords(self.arrow_2faced,
+                shape = self.canvas.coords(self.arrow_2faced,
                     self.start_x, self.start_y, x, y
                 )
             elif self.current_tool == "triangle":
@@ -363,9 +373,9 @@ class DigitalBoard:
                     x, y,
                     x - (x - self.start_x), y,  # Third point of triangle
                 ]
-                self.canvas.coords(self.triangle, *triangle_points)
+                shape = self.canvas.coords(self.triangle, *triangle_points)
             elif self.current_tool in self.shape_icons_dict.keys():  # Check if the current tool is a shape icon
-                self.draw_shape(self.current_tool, x, y)
+                shape = self.draw_shape(self.current_tool, x, y)
 
     def stop_drawing(self, event):
         self.is_drawing = False
@@ -565,6 +575,13 @@ class DigitalBoard:
             self.current_color_box.configure(background=color)  # Update the color box
             self.eraser_color = color # Update the eraser color attribute
 
+            print("Background color changed to ", self.erased_areas)
+
+            # Update erased areas with the new background color
+            for x1, y1, x2, y2 in self.erased_areas:
+                self.canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline='')  # Redraw erased area with new background color
+
+
     def delete_current_slide(self):
         if len(self.slides) > 1:
             # Remove the canvas widget of the current slide
@@ -675,6 +692,14 @@ class DigitalBoard:
                 x, y, text=text, fill=text_color, font=(text_font, text_size), anchor=tk.NW
             )
             self.text_boxes.append(text_box)
+
+
+    def undo(self, event):
+        if self.canvas.find_all():
+                self.canvas.delete(self.canvas.find_all()[-1])
+
+    def redo(self, event):
+        pass
 
 
 
