@@ -4,6 +4,14 @@ from .undo_redo import UndoRedo
 from .save_canvas import SaveCanvas, LoadShapes
 from .create_drawing import Draw, SetColor
 
+
+def destroy_canvas(self):
+    # Display a warning message before destroying the canvas
+    response = messagebox.askokcancel("Confirmation", "Are you sure you want to destroy the canvas?")
+    if response:
+        self.root.destroy()
+        messagebox.showinfo("Info", "Canvas destroyed successfully!")
+
 class CreateCanvas:
 
     def create_canvas(definer=None, self=None):
@@ -137,8 +145,8 @@ class CreateCanvas:
         delete_slide_button.image = delete_icon
         delete_slide_button.pack(side=tk.LEFT, padx=5)
 
-        check_button = tk.Button(toolbar, text="Click me!", command=lambda: LoadShapes.get_shapes(self))
-        check_button.pack(side=tk.LEFT, padx=5)
+        # check_button = tk.Button(toolbar, text="Click me!", command=lambda: LoadShapes.get_shapes(self))
+        # check_button.pack(side=tk.LEFT, padx=5)
 
 
 
@@ -155,6 +163,35 @@ class CreateCanvas:
         # Bind right-click event to the colored box
         self.current_color_box.bind("<Button-3>", lambda event: Setup.change_background_color(self, event))
         
+
+
+
+        # Creating meno to handing file options
+
+        # Load the exit button icon
+        exit_icon = Image.open("./images/exit.png")  # Replace "exit_icon.png" with your image file path
+        exit_icon = exit_icon.resize((1, 1), Image.ANTIALIAS)  # Resize the icon as needed
+        exit_icon = ImageTk.PhotoImage(exit_icon)
+
+        # Create a menu bar
+        menubar = tk.Menu(self.root)
+
+        # Add the "Exit" button directly to the menu bar
+        menubar.add_command(label='Exist', command=lambda : destroy_canvas(self=self))
+
+
+        # Create the "File" menu
+        file_menu = tk.Menu(menubar, tearoff=0)
+        file_menu.add_command(label="Save",  command=lambda: SaveCanvas.save(self))
+        file_menu.add_command(label="Open", command=lambda: SaveCanvas.open_file(self))
+
+        # Add the "File" menu to the menu bar
+        menubar.add_cascade(label="File", menu=file_menu)
+
+        
+        # Configure the root window with the menu bar
+        self.root.config(menu=menubar)
+
         label_style = Style()
         label_style.configure("Heading.TLabel", font=("Comic Sans MS", 22, "bold"), padding=22, foreground="blue")
         digital_board_label = ttk.Label(toolbar, text="Digital Board", style="Heading.TLabel")
@@ -175,14 +212,7 @@ class CreateCanvas:
         self.root.bind("<Control-z>", lambda event: UndoRedo.undo(self, event))
         self.root.bind("<Control-y>", lambda event: UndoRedo.redo(self, event))
 
-        # Creating meno to handing file options
 
-        menubar = tk.Menu(self.root)
-        file_menu = tk.Menu(menubar, tearoff=0)
-        file_menu.add_command(label="Save", command=lambda: SaveCanvas.save(self))
-        file_menu.add_command(label="Open", command=lambda: SaveCanvas.open_file(self))
-        menubar.add_cascade(label="File", menu=file_menu)
-        self.root.config(menu=menubar)
 
 
         # Create a right-click context menu

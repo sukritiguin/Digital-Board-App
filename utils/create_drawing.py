@@ -53,7 +53,7 @@ class Draw:
             if self.current_tool == "line":
                 self.line = self.canvas.create_polygon(
                     self.start_x, self.start_y, self.start_x, self.start_y,
-                    outline=self.pen_color, width=2
+                    outline=self.pen_color, width=2, smooth=True
                 )
                 
             if self.current_tool == "arrow":
@@ -72,7 +72,7 @@ class Draw:
             if self.current_tool == "triangle":
                 self.triangle = self.canvas.create_polygon(
                     self.start_x, self.start_y, self.start_x, self.start_y,
-                    outline=self.pen_color, width=2, fill=self.background
+                    outline=self.pen_color, width=2, fill=''
                 )
         elif self.current_tool == "eraser":
             self.is_drawing = True
