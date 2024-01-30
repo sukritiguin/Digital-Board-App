@@ -1,8 +1,8 @@
 from imports import *
 from .setup import Setup
 from .undo_redo import UndoRedo
-from .save_canvas import SaveCanvas
-from .create_drawing import Draw
+from .save_canvas import SaveCanvas, LoadShapes
+from .create_drawing import Draw, SetColor
 
 class CreateCanvas:
 
@@ -45,12 +45,12 @@ class CreateCanvas:
             style = Style()
             style.configure(recent_color + ".TButton", background=recent_color, foreground=recent_color)
             recent_color_button = ttk.Button(toolbar, text="", width=2, style=recent_color + ".TButton",
-                                            command=lambda color=recent_color, index=i: Draw.set_recent_color(self, color, index))
+                                            command=lambda color=recent_color, index=i: SetColor.set_recent_color(self, color, index))
             recent_color_button.pack(side=tk.LEFT, padx=2)
             self.recent_color_buttons.append(recent_color_button)
             
             # Bind right mouse click to change color of the specific button
-            recent_color_button.bind("<Button-3>", lambda event, color=recent_color, index=i: Draw.change_color_right_click(event, color, index))
+            recent_color_button.bind("<Button-3>", lambda event, color=recent_color, index=i: Draw.change_color_right_click(self, index))
 
         # Shapes section
         shapes_frame = ttk.Frame(toolbar)
@@ -135,7 +135,10 @@ class CreateCanvas:
         
         delete_slide_button = ttk.Button(toolbar, image=delete_icon, command=lambda: Setup.delete_current_slide(self))
         delete_slide_button.image = delete_icon
-        delete_slide_button.pack(side=tk.LEFT, padx=5)    
+        delete_slide_button.pack(side=tk.LEFT, padx=5)
+
+        check_button = tk.Button(toolbar, text="Click me!", command=lambda: LoadShapes.get_shapes(self))
+        check_button.pack(side=tk.LEFT, padx=5)
 
 
 
@@ -176,16 +179,16 @@ class CreateCanvas:
 
         menubar = tk.Menu(self.root)
         file_menu = tk.Menu(menubar, tearoff=0)
-        file_menu.add_command(label="Save", command=SaveCanvas.save)
-        file_menu.add_command(label="Open", command=SaveCanvas.open_file)
+        file_menu.add_command(label="Save", command=lambda: SaveCanvas.save(self))
+        file_menu.add_command(label="Open", command=lambda: SaveCanvas.open_file(self))
         menubar.add_cascade(label="File", menu=file_menu)
         self.root.config(menu=menubar)
 
 
         # Create a right-click context menu
         self.context_menu = Menu(self.canvas, tearoff=0)
-        self.context_menu.add_command(label="Paste Image", command=Setup.paste_image)
-        self.context_menu.add_command(label="Add Text", command=Setup.create_text_box)
+        self.context_menu.add_command(label="Paste Image", command=lambda: Setup.paste_image(self))
+        self.context_menu.add_command(label="Add Text", command=lambda: Setup.create_text_box(self))
 
         
 if __name__ == "__main__":

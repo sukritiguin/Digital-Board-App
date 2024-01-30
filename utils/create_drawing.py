@@ -1,5 +1,22 @@
 from imports import *
 
+class UpdateColor:
+    def update_recent_colors(self, index):
+        for i, recent_color_button in enumerate(self.recent_color_buttons):
+            if i == index:
+                style = ttk.Style()
+                style.configure(recent_color_button["style"], background=self.recent_colors[i])
+            else:
+                style = ttk.Style()
+                style.configure(recent_color_button["style"], background=self.recent_colors[i])
+
+class SetColor:
+    def set_recent_color(self, color, index):
+        if index >= 0 and index < len(self.recent_colors):
+            self.recent_colors[index] = color
+        self.pen_color = color
+        UpdateColor.update_recent_colors(self, index)
+
 class Draw:
     def set_tool(self, tool):
         self.current_tool = tool
@@ -129,27 +146,14 @@ class Draw:
     def change_pen_color(self):
         color = colorchooser.askcolor()[1]
         if color:
-            self.set_recent_color(color, -1)  # Update recent color and selected color
+            SetColor.set_recent_color(self, color, -1)  # Update recent color and selected color
 
-    def change_color_right_click(self, event, color, index):
+    def change_color_right_click(self, index):
         new_color = colorchooser.askcolor()[1]
         if new_color:
-            self.set_recent_color(new_color, index)  # Update the specific color button
+            SetColor.set_recent_color(self, new_color, index)  # Update the specific color button
 
-    def set_recent_color(self, color, index):
-        if index >= 0 and index < len(self.recent_colors):
-            self.recent_colors[index] = color
-        self.pen_color = color
-        self.update_recent_colors(index)
 
-    def update_recent_colors(self, index):
-        for i, recent_color_button in enumerate(self.recent_color_buttons):
-            if i == index:
-                style = ttk.Style()
-                style.configure(recent_color_button["style"], background=self.recent_colors[i])
-            else:
-                style = ttk.Style()
-                style.configure(recent_color_button["style"], background=self.recent_colors[i])
 
     def draw_shape(self, shape_type, x, y):
         # shape_type = None
