@@ -10,12 +10,14 @@
 [![reportlab](https://img.shields.io/badge/reportlab-4.0.4-blue.svg)](https://pypi.org/project/reportlab/)
 [![ttkbootstrap](https://img.shields.io/badge/ttkbootstrap-1.10.1-blue.svg)](https://pypi.org/project/ttkbootstrap/)
 
-
 The Digital Board project is a Python application that provides a digital canvas for drawing, sketching, and taking notes. It allows users to create and manage multiple slides, draw freehand or use various shapes and tools, add text, change colors, and save their work as PDF files. This README.md file provides an overview of the project, its features, and how to use it.
 
 ![Notebook](images/notebook.png)
 
 ## Features
+
+![image](https://github.com/sukritiguin/Digital-Board-App/assets/89704581/2024be00-64fa-45d8-9164-0ad8dff1b078)
+
 
 ### Drawing Tools
 
