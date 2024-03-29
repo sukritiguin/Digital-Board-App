@@ -18,6 +18,8 @@ The Digital Board project is a Python application that provides a digital canvas
 
 ![image](https://github.com/sukritiguin/Digital-Board-App/assets/89704581/2024be00-64fa-45d8-9164-0ad8dff1b078)
 
+![image](https://github.com/sukritiguin/Digital-Board-App/assets/89704581/a81d0265-2cfc-4120-be2e-4e082f6da874)
+
 
 ### Drawing Tools
 
